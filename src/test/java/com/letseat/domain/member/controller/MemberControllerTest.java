@@ -2,7 +2,7 @@ package com.letseat.domain.member.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.letseat.domain.member.dto.request.MemberSignUpRequest;
-import com.letseat.domain.member.dto.response.MemberResponse;
+import com.letseat.domain.member.dto.response.MemberDto;
 import com.letseat.domain.member.service.MemberService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
@@ -34,11 +34,6 @@ class MemberControllerTest {
     @MockBean
     private MemberService memberService;
 
-    @AfterEach
-    void tearDown() {
-
-    }
-
     @Test
     @WithMockUser(username = "회원", roles = "USER")
     @DisplayName("신규 회원을 회원가입한다.")
@@ -46,19 +41,11 @@ class MemberControllerTest {
         //given
         MemberSignUpRequest request =
                 createMemberSignUpRequest("inho5389", "1234", "이노", "정인호", "test@google.com", "01012345678");
+        Mockito.when(memberService.join(any(MemberSignUpRequest.class))).thenReturn(request.signUpToEntity());
 
-        MemberResponse memberResponse = MemberResponse.builder()
-                .id(1L)
-                .loginId(request.getLoginId())
-                .name(request.getName())
-                .nickname(request.getNickname())
-                .message("회원가입이 완료되었습니다.")
-                .build();
-
-        Mockito.when(memberService.join(any(MemberSignUpRequest.class))).thenReturn(memberResponse);
         //when
         //then
-        mockMvc.perform(post("/member/new")
+        mockMvc.perform(post("/members")
                         .with(csrf())
                         .content(objectMapper.writeValueAsString(request))
                         .contentType(MediaType.APPLICATION_JSON)
@@ -67,7 +54,10 @@ class MemberControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value("200"))
                 .andExpect(jsonPath("$.httpStatus").value("OK"))
-                .andExpect(jsonPath("$.message").value("회원가입이 완료되었습니다."));
+                .andExpect(jsonPath("$.message").value("회원가입이 완료되었습니다."))
+                .andExpect(jsonPath("$.data.loginId").value("inho5389"))
+                .andExpect(jsonPath("$.data.name").value("정인호"))
+                .andExpect(jsonPath("$.data.nickname").value("이노"));
     }
 
     @Test
@@ -85,7 +75,7 @@ class MemberControllerTest {
                         .build();
         //when
         //then
-        mockMvc.perform(post("/member/new")
+        mockMvc.perform(post("/members")
                         .with(csrf())
                         .content(objectMapper.writeValueAsString(request))
                         .contentType(MediaType.APPLICATION_JSON)
@@ -94,8 +84,8 @@ class MemberControllerTest {
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.code").value("400"))
                 .andExpect(jsonPath("$.httpStatus").value("BAD_REQUEST"))
-                .andExpect(jsonPath("$.message").value("아이디를 입렵해주세요."))
-                .andExpect(jsonPath("$.data").isEmpty());
+                .andExpect(jsonPath("$.message").value("바인딩 오류"))
+                .andExpect(jsonPath("$.data").value("아이디를 입력해주세요."));
     }
 
     @Test
@@ -113,7 +103,7 @@ class MemberControllerTest {
                         .build();
         //when
         //then
-        mockMvc.perform(post("/member/new")
+        mockMvc.perform(post("/members")
                         .with(csrf())
                         .content(objectMapper.writeValueAsString(request))
                         .contentType(MediaType.APPLICATION_JSON)
@@ -122,8 +112,8 @@ class MemberControllerTest {
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.code").value("400"))
                 .andExpect(jsonPath("$.httpStatus").value("BAD_REQUEST"))
-                .andExpect(jsonPath("$.message").value("비밀번호를 입력해주세요."))
-                .andExpect(jsonPath("$.data").isEmpty());
+                .andExpect(jsonPath("$.message").value("바인딩 오류"))
+                .andExpect(jsonPath("$.data").value("비밀번호를 입력해주세요."));
     }
 
     @Test
@@ -141,7 +131,7 @@ class MemberControllerTest {
                         .build();
         //when
         //then
-        mockMvc.perform(post("/member/new")
+        mockMvc.perform(post("/members")
                         .with(csrf())
                         .content(objectMapper.writeValueAsString(request))
                         .contentType(MediaType.APPLICATION_JSON)
@@ -150,8 +140,8 @@ class MemberControllerTest {
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.code").value("400"))
                 .andExpect(jsonPath("$.httpStatus").value("BAD_REQUEST"))
-                .andExpect(jsonPath("$.message").value("이메일을 입력해주세요."))
-                .andExpect(jsonPath("$.data").isEmpty());
+                .andExpect(jsonPath("$.message").value("바인딩 오류"))
+                .andExpect(jsonPath("$.data").value("이메일을 입력해주세요."));
     }
 
     @Test
@@ -169,7 +159,7 @@ class MemberControllerTest {
                         .build();
         //when
         //then
-        mockMvc.perform(post("/member/new")
+        mockMvc.perform(post("/members")
                         .with(csrf())
                         .content(objectMapper.writeValueAsString(request))
                         .contentType(MediaType.APPLICATION_JSON)
@@ -178,8 +168,8 @@ class MemberControllerTest {
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.code").value("400"))
                 .andExpect(jsonPath("$.httpStatus").value("BAD_REQUEST"))
-                .andExpect(jsonPath("$.message").value("닉네임을 입력해주세요."))
-                .andExpect(jsonPath("$.data").isEmpty());
+                .andExpect(jsonPath("$.message").value("바인딩 오류"))
+                .andExpect(jsonPath("$.data").value("닉네임을 입력해주세요."));
     }
 
     @Test
@@ -197,7 +187,7 @@ class MemberControllerTest {
                         .build();
         //when
         //then
-        mockMvc.perform(post("/member/new")
+        mockMvc.perform(post("/members")
                         .with(csrf())
                         .content(objectMapper.writeValueAsString(request))
                         .contentType(MediaType.APPLICATION_JSON)
@@ -206,8 +196,8 @@ class MemberControllerTest {
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.code").value("400"))
                 .andExpect(jsonPath("$.httpStatus").value("BAD_REQUEST"))
-                .andExpect(jsonPath("$.message").value("이름을 입력해주세요."))
-                .andExpect(jsonPath("$.data").isEmpty());
+                .andExpect(jsonPath("$.message").value("바인딩 오류"))
+                .andExpect(jsonPath("$.data").value("이름을 입력해주세요."));
     }
 
     @Test
@@ -225,7 +215,7 @@ class MemberControllerTest {
                         .build();
         //when
         //then
-        mockMvc.perform(post("/member/new")
+        mockMvc.perform(post("/members")
                         .with(csrf())
                         .content(objectMapper.writeValueAsString(request))
                         .contentType(MediaType.APPLICATION_JSON)
@@ -234,8 +224,8 @@ class MemberControllerTest {
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.code").value("400"))
                 .andExpect(jsonPath("$.httpStatus").value("BAD_REQUEST"))
-                .andExpect(jsonPath("$.message").value("핸드폰 번호를 입력해주세요."))
-                .andExpect(jsonPath("$.data").isEmpty());
+                .andExpect(jsonPath("$.message").value("바인딩 오류"))
+                .andExpect(jsonPath("$.data").value("핸드폰 번호를 입력해주세요."));
     }
 
     private static MemberSignUpRequest createMemberSignUpRequest(String loginId, String password, String nickname, String name, String email, String phone) {

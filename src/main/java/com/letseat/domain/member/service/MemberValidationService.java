@@ -1,9 +1,6 @@
 package com.letseat.domain.member.service;
 
-import com.letseat.domain.member.exception.join.EmailFormatIncorrectException;
-import com.letseat.domain.member.exception.join.LoginIdEmptyException;
-import com.letseat.domain.member.exception.join.LoginIdLengthException;
-import com.letseat.domain.member.exception.join.PasswordNotMatchException;
+import com.letseat.domain.member.exception.JoinCustomException;
 import org.springframework.stereotype.Service;
 
 import java.util.regex.Matcher;
@@ -12,38 +9,34 @@ import java.util.regex.Pattern;
 @Service
 public class MemberValidationService {
 
-    public boolean isLoginIdValid(String loginId) {
+    private static final Pattern passwordRegex = Pattern.compile("^(?=.*[a-zA-Z])(?=.*\\d)(?=.*\\W).{8,20}$");
+    private static final Pattern emailRegex = Pattern.compile("\\w+@\\w+\\.\\w+(\\.\\w+)?");
+
+
+    public void isLoginIdValid(String loginId) {
         if (loginId == null || loginId.isEmpty()) {
-            throw new LoginIdEmptyException();
+            throw new JoinCustomException("로그인 아이디를 입력해주세요.");
         }
 
         if (loginId.length() <= 4 || loginId.length() >= 11) {
-            throw new LoginIdLengthException();
+            throw new JoinCustomException("아이디는 5자이상 10글자 이하입니다.");
         }
-        return true;
     }
 
-    public boolean isPasswordValid(String password) {
+    public void isPasswordValid(String password) {
 
-        String text = password;
-        Pattern passPattern = Pattern.compile("^(?=.*[a-zA-Z])(?=.*\\d)(?=.*\\W).{8,20}$");
-        Matcher matcher = passPattern.matcher(text);
+        Matcher matcher = passwordRegex.matcher(password);
 
         if (!matcher.matches()) {
-            throw new PasswordNotMatchException();
+            throw new JoinCustomException("비밀번호는 8글자 이상 20글자 이하 그리고 숫자,영문,특수문자가 1개 이상 포함되어야합니다.");
         }
-        return true;
     }
 
-    public boolean isEmailValid(String email) {
-        String text = email;
-        Pattern passPattern = Pattern.compile("\\w+@\\w+\\.\\w+(\\.\\w+)?");
-        Matcher matcher = passPattern.matcher(text);
+    public void isEmailValid(String email) {
+        Matcher matcher = emailRegex.matcher(email);
 
         if (!matcher.matches()) {
-            throw new EmailFormatIncorrectException();
+            throw new JoinCustomException("이메일 형식이 올바르지 않습니다.");
         }
-
-        return true;
     }
 }

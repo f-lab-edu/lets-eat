@@ -6,6 +6,5 @@ public abstract class CustomException extends RuntimeException {
 
     public abstract HttpStatus getStatus();
 
-    public abstract String getMessage();
 
 }

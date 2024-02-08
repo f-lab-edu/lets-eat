@@ -2,8 +2,8 @@ package com.letseat.domain.member.service;
 
 import com.letseat.domain.member.domain.Member;
 import com.letseat.domain.member.dto.request.MemberSignUpRequest;
-import com.letseat.domain.member.dto.response.MemberResponse;
-import com.letseat.domain.member.exception.join.AlreadyExistUserException;
+import com.letseat.domain.member.dto.response.MemberDto;
+import com.letseat.domain.member.exception.JoinCustomException;
 import com.letseat.domain.member.repository.MemberRepository;
 import com.letseat.global.auth.Role;
 import org.junit.jupiter.api.AfterEach;
@@ -42,11 +42,12 @@ class MemberServiceTest {
                 createMemberSignUpRequest("inho5389", "inho5389!", "정인호", "test@google.com", "01012345678");
 
         //when
-        MemberResponse memberResponse = memberService.join(request);
+        Member savedMember = memberService.join(request);
+
         Member member = memberRepository.findByLoginId(request.getLoginId()).get();
 
         //then
-        assertThat(memberResponse.getId()).isEqualTo(member.getId());
+        assertThat(savedMember.getId()).isEqualTo(member.getId());
         assertThat(member)
                 .extracting("loginId","name","email","phone")
                 .containsExactlyInAnyOrder("inho5389", "정인호", "test@google.com", "01012345678");
@@ -63,7 +64,7 @@ class MemberServiceTest {
         //when
         //then
         assertThatThrownBy(()->memberService.join(request))
-                .isInstanceOf(AlreadyExistUserException.class)
+                .isInstanceOf(JoinCustomException.class)
                 .hasMessage("이미 존재하는 아이디입니다.");
     }
 

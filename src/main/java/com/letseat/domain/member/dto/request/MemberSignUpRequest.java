@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class MemberSignUpRequest {
 
-    @NotBlank(message = "아이디를 입렵해주세요.")
+    @NotBlank(message = "아이디를 입력해주세요.")
     private String loginId;
     @NotBlank(message = "비밀번호를 입력해주세요.")
     private String password;

@@ -1,16 +1,13 @@
 package com.letseat.domain.member.service;
 
 import com.letseat.domain.member.dto.request.MemberSignUpRequest;
-import com.letseat.domain.member.exception.join.EmailFormatIncorrectException;
-import com.letseat.domain.member.exception.join.LoginIdLengthException;
-import com.letseat.domain.member.exception.join.PasswordNotMatchException;
+import com.letseat.domain.member.exception.JoinCustomException;
 import com.letseat.domain.member.repository.MemberRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @SpringBootTest
@@ -31,9 +28,8 @@ class MemberValidationServiceTest {
         //given
         String loginId = "inho5";
         //when
-        boolean result = memberValidationService.isLoginIdValid(loginId);
         //then
-        assertThat(result).isTrue();
+        memberValidationService.isLoginIdValid(loginId);
     }
 
     @Test
@@ -44,8 +40,9 @@ class MemberValidationServiceTest {
         //when
         //then
         assertThatThrownBy(() -> memberValidationService.isLoginIdValid(loginId))
-                .isInstanceOf(LoginIdLengthException.class)
+                .isInstanceOf(JoinCustomException.class)
                 .hasMessage("아이디는 5자이상 10글자 이하입니다.");
+
     }
 
     @Test
@@ -56,7 +53,7 @@ class MemberValidationServiceTest {
         //when
         //then
         assertThatThrownBy(() -> memberValidationService.isLoginIdValid(loginId))
-                .isInstanceOf(LoginIdLengthException.class)
+                .isInstanceOf(JoinCustomException.class)
                 .hasMessage("아이디는 5자이상 10글자 이하입니다.");
     }
 
@@ -66,9 +63,8 @@ class MemberValidationServiceTest {
         //given
         String paasword = "inho5389!@";
         //when
-        boolean result = memberValidationService.isPasswordValid(paasword);
         //then
-        assertThat(result).isTrue();
+        memberValidationService.isPasswordValid(paasword);
     }
 
     @Test
@@ -79,7 +75,7 @@ class MemberValidationServiceTest {
         //when
         //then
         assertThatThrownBy(() -> memberValidationService.isPasswordValid(paasword))
-                .isInstanceOf(PasswordNotMatchException.class)
+                .isInstanceOf(JoinCustomException.class)
                 .hasMessage("비밀번호는 8글자 이상 20글자 이하 그리고 숫자,영문,특수문자가 1개 이상 포함되어야합니다.");
     }
 
@@ -91,7 +87,7 @@ class MemberValidationServiceTest {
         //when
         //then
         assertThatThrownBy(() -> memberValidationService.isPasswordValid(paasword))
-                .isInstanceOf(PasswordNotMatchException.class)
+                .isInstanceOf(JoinCustomException.class)
                 .hasMessage("비밀번호는 8글자 이상 20글자 이하 그리고 숫자,영문,특수문자가 1개 이상 포함되어야합니다.");
     }
 
@@ -103,7 +99,7 @@ class MemberValidationServiceTest {
         //when
         //then
         assertThatThrownBy(() -> memberValidationService.isPasswordValid(paasword))
-                .isInstanceOf(PasswordNotMatchException.class)
+                .isInstanceOf(JoinCustomException.class)
                 .hasMessage("비밀번호는 8글자 이상 20글자 이하 그리고 숫자,영문,특수문자가 1개 이상 포함되어야합니다.");
     }
 
@@ -115,7 +111,7 @@ class MemberValidationServiceTest {
         //when
         //then
         assertThatThrownBy(() -> memberValidationService.isPasswordValid(paasword))
-                .isInstanceOf(PasswordNotMatchException.class)
+                .isInstanceOf(JoinCustomException.class)
                 .hasMessage("비밀번호는 8글자 이상 20글자 이하 그리고 숫자,영문,특수문자가 1개 이상 포함되어야합니다.");
     }
 
@@ -127,7 +123,7 @@ class MemberValidationServiceTest {
         //when
         //then
         assertThatThrownBy(() -> memberValidationService.isEmailValid(email))
-                .isInstanceOf(EmailFormatIncorrectException.class)
+                .isInstanceOf(JoinCustomException.class)
                 .hasMessage("이메일 형식이 올바르지 않습니다.");
     }
 
@@ -139,7 +135,7 @@ class MemberValidationServiceTest {
         //when
         //then
         assertThatThrownBy(() -> memberValidationService.isEmailValid(email))
-                .isInstanceOf(EmailFormatIncorrectException.class)
+                .isInstanceOf(JoinCustomException.class)
                 .hasMessage("이메일 형식이 올바르지 않습니다.");
     }
 
@@ -149,9 +145,8 @@ class MemberValidationServiceTest {
         //given
         String email = "test@naver.com";
         //when
-        boolean result = memberValidationService.isEmailValid(email);
         //then
-        assertThat(result).isTrue();
+        memberValidationService.isEmailValid(email);
     }
 
     private static MemberSignUpRequest createMemberSignUpRequest(String loginId, String password, String nickname, String name, String email, String phone) {

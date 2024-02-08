@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Slf4j
 @RestControllerAdvice
 @RequiredArgsConstructor
@@ -20,13 +23,16 @@ public class UserExceptionHandler {
     public ResponseEntity<ApiResponse<Object>> customHandler(CustomException e) {
         int statusCode = e.getStatus().value();
         return ResponseEntity.status(statusCode)
-                .body(ApiResponse.of(e.getStatus(), e.getMessage(), false));
+                .body(ApiResponse.of(e.getStatus(),e.getMessage(), false));
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(BindException.class)
     public ApiResponse<Object> bindException(BindException e) {
-        ObjectError data = e.getBindingResult().getAllErrors().get(0);
-        return ApiResponse.of(HttpStatus.BAD_REQUEST, data.getDefaultMessage(), null);
+        List<ObjectError> allErrors = e.getBindingResult().getAllErrors();
+        List<String> collect = allErrors.stream().map(error -> error.getDefaultMessage())
+                .collect(Collectors.toList());
+
+        return ApiResponse.of(HttpStatus.BAD_REQUEST,"바인딩 오류", collect);
     }
 }
