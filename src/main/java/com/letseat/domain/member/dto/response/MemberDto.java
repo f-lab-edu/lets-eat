@@ -5,8 +5,6 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDateTime;
 
@@ -22,7 +20,7 @@ public class MemberDto {
     private LocalDateTime modifiedDateTime;
 
     @Builder
-    public MemberDto(Long id, String loginId, String name, String nickname, String message,LocalDateTime createdDateTime,
+    public MemberDto(Long id, String loginId, String name, String nickname, LocalDateTime createdDateTime,
                      LocalDateTime modifiedDateTime) {
         this.id = id;
         this.loginId = loginId;

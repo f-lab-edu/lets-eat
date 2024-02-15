@@ -1,10 +1,10 @@
 package com.letseat.domain.member.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.letseat.domain.member.domain.Member;
 import com.letseat.domain.member.dto.request.MemberSignUpRequest;
-import com.letseat.domain.member.dto.response.MemberDto;
 import com.letseat.domain.member.service.MemberService;
-import org.junit.jupiter.api.AfterEach;
+import com.letseat.global.auth.Role;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -41,7 +41,10 @@ class MemberControllerTest {
         //given
         MemberSignUpRequest request =
                 createMemberSignUpRequest("inho5389", "1234", "이노", "정인호", "test@google.com", "01012345678");
-        Mockito.when(memberService.join(any(MemberSignUpRequest.class))).thenReturn(request.signUpToEntity());
+
+        Member member = createMember("inho5389","이노" ,"1234", "정인호", "test@google.com", "01012345678");
+
+        Mockito.when(memberService.signUp(any(MemberSignUpRequest.class))).thenReturn(member);
 
         //when
         //then
@@ -236,6 +239,18 @@ class MemberControllerTest {
                 .nickname(nickname)
                 .email(email)
                 .phone(phone)
+                .build();
+    }
+
+    private static Member createMember(String loginId,String nickname, String password, String name, String email, String phone) {
+        return Member.builder()
+                .loginId(loginId)
+                .password(password)
+                .name(name)
+                .nickname(nickname)
+                .email(email)
+                .phone(phone)
+                .role(Role.ROLE_MEMBER)
                 .build();
     }
 }

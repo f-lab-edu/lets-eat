@@ -2,10 +2,9 @@ package com.letseat.domain.member.service;
 
 import com.letseat.domain.member.domain.Member;
 import com.letseat.domain.member.dto.request.MemberSignUpRequest;
-import com.letseat.domain.member.dto.response.MemberDto;
-import com.letseat.domain.member.exception.JoinCustomException;
 import com.letseat.domain.member.repository.MemberRepository;
 import com.letseat.global.auth.Role;
+import jakarta.validation.ValidationException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -36,13 +35,13 @@ class MemberServiceTest {
 
     @Test
     @DisplayName("회원이 회원가입을 하고 DB에 잘 저장되어있는지 확인한다.")
-    void memberJoin(){
+    void memberSignUp(){
         //given
         MemberSignUpRequest request =
                 createMemberSignUpRequest("inho5389", "inho5389!", "정인호", "test@google.com", "01012345678");
 
         //when
-        Member savedMember = memberService.join(request);
+        Member savedMember = memberService.signUp(request);
 
         Member member = memberRepository.findByLoginId(request.getLoginId()).get();
 
@@ -54,7 +53,7 @@ class MemberServiceTest {
     }
     @Test
     @DisplayName("회원가입시 중복된 아이디로 회원가입시 예외가 발생한다.")
-    void duplicateMemberJoin(){
+    void duplicateMemberSignUp(){
         //given
         Member member1 = createMember("inho5389", "inho5389!", "정인호", "test@google.com", "01012345678");
         memberRepository.save(member1);
@@ -63,18 +62,18 @@ class MemberServiceTest {
 
         //when
         //then
-        assertThatThrownBy(()->memberService.join(request))
-                .isInstanceOf(JoinCustomException.class)
+        assertThatThrownBy(()->memberService.signUp(request))
+                .isInstanceOf(ValidationException.class)
                 .hasMessage("이미 존재하는 아이디입니다.");
     }
 
     @Test
     @DisplayName("회원가입시 비밀번호가 암호화 되어 있는지 확인한다.")
-    void encryptionPasswordWhenJoin(){
+    void encryptionPasswordWhenSignUp(){
         //given
         MemberSignUpRequest request =
                 createMemberSignUpRequest("inho5389", "inho5389!", "정인호", "test@google.com", "01012345678");
-        memberService.join(request);
+        memberService.signUp(request);
         Member member = memberRepository.findByLoginId(request.getLoginId()).get();
 
         //when

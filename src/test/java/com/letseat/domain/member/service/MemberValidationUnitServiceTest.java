@@ -1,27 +1,50 @@
 package com.letseat.domain.member.service;
 
+import com.letseat.domain.member.domain.Member;
 import com.letseat.domain.member.dto.request.MemberSignUpRequest;
-import com.letseat.domain.member.exception.JoinCustomException;
 import com.letseat.domain.member.repository.MemberRepository;
+import jakarta.validation.ValidationException;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
-@SpringBootTest
-class MemberValidationServiceTest {
+@ExtendWith(MockitoExtension.class)
+public class MemberValidationUnitServiceTest {
 
-    @Autowired
-    private MemberRepository memberRepository;
-
-    @Autowired
+    @InjectMocks
     private MemberValidationService memberValidationService;
 
-    @Autowired
-    MemberService memberService;
+    @Mock
+    private MemberRepository memberRepository;
 
+    @Test
+    @DisplayName("중복된 아이디로 검증서비스로 들어올 경우 예외가 발생한다.")
+    void duplicateMemberJoin(){
+        //given
+        MemberSignUpRequest request = createMemberSignUpRequest("inho5389", "inho5389!", "정인호", "test@google.com", "01012345678");
+        Member savedMember = Member.builder()
+                .loginId("inho5389")
+                .build();
+        when(memberRepository.findByLoginId(any())).thenReturn(Optional.of(savedMember));
+
+        //when
+        //then
+        assertThatThrownBy(()->memberValidationService.isSignUpValid(request))
+                .isInstanceOf(ValidationException.class)
+                .hasMessage("이미 존재하는 아이디입니다.");
+    }
     @Test
     @DisplayName("회원 가입시 로그인 ID는 5글자 이상 10글자 이하여야 한다.")
     void isLoginIdValid() {
@@ -40,7 +63,7 @@ class MemberValidationServiceTest {
         //when
         //then
         assertThatThrownBy(() -> memberValidationService.isLoginIdValid(loginId))
-                .isInstanceOf(JoinCustomException.class)
+                .isInstanceOf(ValidationException.class)
                 .hasMessage("아이디는 5자이상 10글자 이하입니다.");
 
     }
@@ -53,7 +76,7 @@ class MemberValidationServiceTest {
         //when
         //then
         assertThatThrownBy(() -> memberValidationService.isLoginIdValid(loginId))
-                .isInstanceOf(JoinCustomException.class)
+                .isInstanceOf(ValidationException.class)
                 .hasMessage("아이디는 5자이상 10글자 이하입니다.");
     }
 
@@ -75,7 +98,7 @@ class MemberValidationServiceTest {
         //when
         //then
         assertThatThrownBy(() -> memberValidationService.isPasswordValid(paasword))
-                .isInstanceOf(JoinCustomException.class)
+                .isInstanceOf(ValidationException.class)
                 .hasMessage("비밀번호는 8글자 이상 20글자 이하 그리고 숫자,영문,특수문자가 1개 이상 포함되어야합니다.");
     }
 
@@ -87,7 +110,7 @@ class MemberValidationServiceTest {
         //when
         //then
         assertThatThrownBy(() -> memberValidationService.isPasswordValid(paasword))
-                .isInstanceOf(JoinCustomException.class)
+                .isInstanceOf(ValidationException.class)
                 .hasMessage("비밀번호는 8글자 이상 20글자 이하 그리고 숫자,영문,특수문자가 1개 이상 포함되어야합니다.");
     }
 
@@ -99,7 +122,7 @@ class MemberValidationServiceTest {
         //when
         //then
         assertThatThrownBy(() -> memberValidationService.isPasswordValid(paasword))
-                .isInstanceOf(JoinCustomException.class)
+                .isInstanceOf(ValidationException.class)
                 .hasMessage("비밀번호는 8글자 이상 20글자 이하 그리고 숫자,영문,특수문자가 1개 이상 포함되어야합니다.");
     }
 
@@ -111,7 +134,7 @@ class MemberValidationServiceTest {
         //when
         //then
         assertThatThrownBy(() -> memberValidationService.isPasswordValid(paasword))
-                .isInstanceOf(JoinCustomException.class)
+                .isInstanceOf(ValidationException.class)
                 .hasMessage("비밀번호는 8글자 이상 20글자 이하 그리고 숫자,영문,특수문자가 1개 이상 포함되어야합니다.");
     }
 
@@ -123,7 +146,7 @@ class MemberValidationServiceTest {
         //when
         //then
         assertThatThrownBy(() -> memberValidationService.isEmailValid(email))
-                .isInstanceOf(JoinCustomException.class)
+                .isInstanceOf(ValidationException.class)
                 .hasMessage("이메일 형식이 올바르지 않습니다.");
     }
 
@@ -135,7 +158,7 @@ class MemberValidationServiceTest {
         //when
         //then
         assertThatThrownBy(() -> memberValidationService.isEmailValid(email))
-                .isInstanceOf(JoinCustomException.class)
+                .isInstanceOf(ValidationException.class)
                 .hasMessage("이메일 형식이 올바르지 않습니다.");
     }
 
@@ -149,12 +172,11 @@ class MemberValidationServiceTest {
         memberValidationService.isEmailValid(email);
     }
 
-    private static MemberSignUpRequest createMemberSignUpRequest(String loginId, String password, String nickname, String name, String email, String phone) {
+    private static MemberSignUpRequest createMemberSignUpRequest(String loginId, String password, String name, String email, String phone) {
         return MemberSignUpRequest.builder()
                 .loginId(loginId)
                 .password(password)
                 .name(name)
-                .nickname(nickname)
                 .email(email)
                 .phone(phone)
                 .build();

@@ -2,7 +2,6 @@ package com.letseat.domain.member.service;
 
 import com.letseat.domain.member.domain.Member;
 import com.letseat.domain.member.dto.request.MemberSignUpRequest;
-import com.letseat.domain.member.exception.JoinCustomException;
 import com.letseat.domain.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -17,26 +16,11 @@ public class MemberService {
     private final MemberValidationService memberValidationService;
 
 
-    public Member join(MemberSignUpRequest requestForm) {
+    public Member signUp(MemberSignUpRequest requestForm) {
 
-        memberJoinValidation(requestForm);
-
-        Member member = requestForm.signUpToEntity();
-        member.encodePassword(passwordEncoder);
-        Member savedMember = memberRepository.save(member);
+        memberValidationService.isSignUpValid(requestForm);
+        Member savedMember = requestForm.signUpToEntity(memberRepository, passwordEncoder);
 
         return savedMember;
-    }
-
-    private void memberJoinValidation(MemberSignUpRequest requestForm) {
-        memberValidationService.isLoginIdValid(requestForm.getLoginId());
-        memberValidationService.isPasswordValid(requestForm.getPassword());
-        memberValidationService.isEmailValid(requestForm.getEmail());
-
-        memberRepository.findByLoginId(requestForm.getLoginId()).ifPresent(
-                member -> {
-                    throw new JoinCustomException("이미 존재하는 아이디입니다.");
-                }
-        );
     }
 }

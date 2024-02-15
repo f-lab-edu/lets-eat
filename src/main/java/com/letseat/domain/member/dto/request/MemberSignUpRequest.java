@@ -1,12 +1,14 @@
 package com.letseat.domain.member.dto.request;
 
 import com.letseat.domain.member.domain.Member;
+import com.letseat.domain.member.repository.MemberRepository;
 import com.letseat.global.auth.Role;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -35,8 +37,8 @@ public class MemberSignUpRequest {
         this.phone = phone;
     }
 
-    public Member signUpToEntity() {
-        return Member.builder()
+    public Member signUpToEntity(MemberRepository memberRepository, PasswordEncoder passwordEncoder) {
+        Member member = Member.builder()
                 .loginId(loginId)
                 .password(password)
                 .email(email)
@@ -45,5 +47,8 @@ public class MemberSignUpRequest {
                 .phone(phone)
                 .role(Role.ROLE_MEMBER)
                 .build();
+        member.encodePassword(passwordEncoder);
+        Member savedMember = memberRepository.save(member);
+        return savedMember;
     }
 }

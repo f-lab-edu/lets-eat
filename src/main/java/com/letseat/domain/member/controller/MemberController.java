@@ -23,8 +23,8 @@ public class MemberController {
     private final MemberService memberService;
 
     @PostMapping("/members")
-    public ApiResponse<MemberDto> join(@RequestBody @Valid MemberSignUpRequest request) {
-        Member savedMember = memberService.join(request);
+    public ApiResponse<MemberDto> signUp(@RequestBody @Valid MemberSignUpRequest request) {
+        Member savedMember = memberService.signUp(request);
         MemberDto memberDto = MemberDto.of(savedMember);
         return ApiResponse.of(HttpStatus.OK, JOIN_COMPLETE.getMessage(), memberDto);
     }

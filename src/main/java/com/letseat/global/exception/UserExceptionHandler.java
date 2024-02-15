@@ -1,10 +1,12 @@
 package com.letseat.global.exception;
 
 import com.letseat.global.common.ApiResponse;
+import jakarta.validation.ValidationException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.validation.BindException;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -19,11 +21,11 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class UserExceptionHandler {
 
-    @ExceptionHandler(CustomException.class)
-    public ResponseEntity<ApiResponse<Object>> customHandler(CustomException e) {
-        int statusCode = e.getStatus().value();
+    @ExceptionHandler(ValidationException.class)
+    public ResponseEntity<ApiResponse<Object>> validationCustomHandler(ValidationException e) {
+        int statusCode = HttpStatus.BAD_REQUEST.value();
         return ResponseEntity.status(statusCode)
-                .body(ApiResponse.of(e.getStatus(),e.getMessage(), false));
+                .body(ApiResponse.of(HttpStatus.BAD_REQUEST,e.getMessage(), false));
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
