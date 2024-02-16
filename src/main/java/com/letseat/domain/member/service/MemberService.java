@@ -19,8 +19,8 @@ public class MemberService {
     public Member signUp(MemberSignUpRequest requestForm) {
 
         memberValidationService.isSignUpValid(requestForm);
-        Member savedMember = requestForm.signUpToEntity(memberRepository, passwordEncoder);
+        Member member = requestForm.signUpToEntity(passwordEncoder);
 
-        return savedMember;
+        return memberRepository.save(member);
     }
 }

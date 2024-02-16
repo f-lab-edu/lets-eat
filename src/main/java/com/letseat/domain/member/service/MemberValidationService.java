@@ -17,8 +17,8 @@ public class MemberValidationService {
 
     private static final Pattern passwordRegex = Pattern.compile("^(?=.*[a-zA-Z])(?=.*\\d)(?=.*\\W).{8,20}$");
     private static final Pattern emailRegex = Pattern.compile("\\w+@\\w+\\.\\w+(\\.\\w+)?");
-    public static final int MIN_LOGIN_ID_LENGTH = 4;
-    public static final int MAX_LOGIN_ID_LENGTH = 11;
+    private static final int MIN_LOGIN_ID_LENGTH = 4;
+    private static final int MAX_LOGIN_ID_LENGTH = 11;
 
     private final MemberRepository memberRepository;
 

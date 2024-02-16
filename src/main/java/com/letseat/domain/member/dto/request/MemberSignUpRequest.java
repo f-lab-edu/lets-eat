@@ -37,7 +37,7 @@ public class MemberSignUpRequest {
         this.phone = phone;
     }
 
-    public Member signUpToEntity(MemberRepository memberRepository, PasswordEncoder passwordEncoder) {
+    public Member signUpToEntity( PasswordEncoder passwordEncoder) {
         Member member = Member.builder()
                 .loginId(loginId)
                 .password(password)
@@ -48,7 +48,6 @@ public class MemberSignUpRequest {
                 .role(Role.ROLE_MEMBER)
                 .build();
         member.encodePassword(passwordEncoder);
-        Member savedMember = memberRepository.save(member);
-        return savedMember;
+        return member;
     }
 }

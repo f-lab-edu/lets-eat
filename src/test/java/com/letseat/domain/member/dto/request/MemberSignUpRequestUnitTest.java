@@ -32,16 +32,12 @@ public class MemberSignUpRequestUnitTest {
 
         MemberSignUpRequest signUpRequest = createMemberSignUpRequest("inho5389", "inho5389!", "정인호", "test@google.com", "01012345678");
         when(passwordEncoder.encode("inho5389!")).thenReturn(encryptedPassword);
-        when(memberRepository.save(any(Member.class))).thenReturn(
-                createMember("inho5389", encryptedPassword, "test@google.com", "정인호", "01012345678", Role.ROLE_MEMBER)
-        );
 
         // when
-        Member savedMember = signUpRequest.signUpToEntity(memberRepository, passwordEncoder);
+        Member savedMember = signUpRequest.signUpToEntity(passwordEncoder);
 
         // then
         verify(passwordEncoder).encode("inho5389!");
-        verify(memberRepository).save(any(Member.class));
         assertEquals(encryptedPassword, savedMember.getPassword());
     }
 
