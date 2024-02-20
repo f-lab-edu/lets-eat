@@ -1,5 +1,6 @@
 package com.letseat.domain.member.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.letseat.domain.member.domain.Member;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -16,7 +17,9 @@ public class MemberDto {
     private String loginId;
     private String name;
     private String nickname;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "Asia/Seoul")
     private LocalDateTime createdDateTime;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "Asia/Seoul")
     private LocalDateTime modifiedDateTime;
 
     @Builder
