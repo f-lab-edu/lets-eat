@@ -48,7 +48,7 @@ public class SecurityConfig {
                                     response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                                     response.setContentType("application/json");
                                     response.setCharacterEncoding("UTF-8");
-                                    String data = om.writeValueAsString(ApiResponse.of(HttpStatus.UNAUTHORIZED, "로그인 하여 주세요.", false));
+                                    String data = om.writeValueAsString(ApiResponse.of(HttpStatus.UNAUTHORIZED, "로그인 하여 주세요.", null));
                                     response.getWriter().write(data);
                                 })
                                 .accessDeniedHandler((request, response, accessDeniedException) -> {
@@ -56,7 +56,7 @@ public class SecurityConfig {
                                     response.setStatus(HttpServletResponse.SC_FORBIDDEN);
                                     response.setContentType("application/json");
                                     response.setCharacterEncoding("UTF-8");
-                                    String data = om.writeValueAsString(ApiResponse.of(HttpStatus.BAD_REQUEST, "접근 권한이 없습니다.", false));
+                                    String data = om.writeValueAsString(ApiResponse.of(HttpStatus.BAD_REQUEST, "접근 권한이 없습니다.", null));
                                     response.getWriter().write(data);
                                 }));
 
