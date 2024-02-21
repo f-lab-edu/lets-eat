@@ -28,4 +28,5 @@ public class MemberController {
         MemberDto memberDto = MemberDto.of(savedMember);
         return ApiResponse.of(HttpStatus.OK, JOIN_COMPLETE.getMessage(), memberDto);
     }
+
 }
