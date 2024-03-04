@@ -1,7 +1,7 @@
 package com.letseat.global.auth;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.letseat.domain.member.repository.MemberRepository;
+import com.letseat.member.repository.MemberRepository;
 import com.letseat.global.auth.jwt.service.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

@@ -1,4 +1,4 @@
-package com.letseat.domain.member.domain;
+package com.letseat.member.domain;
 
 import com.letseat.global.common.BaseEntity;
 import com.letseat.global.auth.Role;

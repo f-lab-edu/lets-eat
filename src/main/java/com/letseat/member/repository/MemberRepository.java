@@ -1,6 +1,6 @@
-package com.letseat.domain.member.repository;
+package com.letseat.member.repository;
 
-import com.letseat.domain.member.domain.Member;
+import com.letseat.member.domain.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

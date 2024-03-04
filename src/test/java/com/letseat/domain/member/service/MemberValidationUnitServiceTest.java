@@ -1,17 +1,15 @@
 package com.letseat.domain.member.service;
 
-import com.letseat.domain.member.domain.Member;
-import com.letseat.domain.member.dto.request.MemberSignUpRequest;
-import com.letseat.domain.member.repository.MemberRepository;
+import com.letseat.member.domain.Member;
+import com.letseat.member.dto.request.MemberSignUpRequest;
+import com.letseat.member.repository.MemberRepository;
+import com.letseat.member.service.MemberValidationService;
 import jakarta.validation.ValidationException;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;

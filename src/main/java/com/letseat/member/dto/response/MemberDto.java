@@ -1,7 +1,7 @@
-package com.letseat.domain.member.dto.response;
+package com.letseat.member.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.letseat.domain.member.domain.Member;
+import com.letseat.member.domain.Member;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;

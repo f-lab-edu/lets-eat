@@ -6,7 +6,7 @@ import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.letseat.domain.member.domain.Member;
+import com.letseat.member.domain.Member;
 import com.letseat.global.auth.PrincipalDetails;
 import com.letseat.global.auth.Role;
 import com.letseat.global.auth.jwt.util.JwtUtil;

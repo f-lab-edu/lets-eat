@@ -1,7 +1,8 @@
 package com.letseat.domain.member.dto.request;
 
-import com.letseat.domain.member.domain.Member;
-import com.letseat.domain.member.repository.MemberRepository;
+import com.letseat.member.domain.Member;
+import com.letseat.member.dto.request.MemberSignUpRequest;
+import com.letseat.member.repository.MemberRepository;
 import com.letseat.global.auth.Role;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

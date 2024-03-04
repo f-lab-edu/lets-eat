@@ -1,9 +1,9 @@
-package com.letseat.domain.member.controller;
+package com.letseat.member.controller;
 
-import com.letseat.domain.member.domain.Member;
-import com.letseat.domain.member.dto.request.MemberSignUpRequest;
-import com.letseat.domain.member.dto.response.MemberDto;
-import com.letseat.domain.member.service.MemberService;
+import com.letseat.member.domain.Member;
+import com.letseat.member.dto.request.MemberSignUpRequest;
+import com.letseat.member.dto.response.MemberDto;
+import com.letseat.member.service.MemberService;
 import com.letseat.global.common.ApiResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

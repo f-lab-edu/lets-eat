@@ -1,7 +1,8 @@
 package com.letseat.domain.member.repository;
 
-import com.letseat.domain.member.domain.Member;
+import com.letseat.member.domain.Member;
 import com.letseat.global.auth.Role;
+import com.letseat.member.repository.MemberRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

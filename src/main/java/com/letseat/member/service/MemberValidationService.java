@@ -1,12 +1,11 @@
-package com.letseat.domain.member.service;
+package com.letseat.member.service;
 
-import com.letseat.domain.member.dto.request.MemberSignUpRequest;
-import com.letseat.domain.member.repository.MemberRepository;
+import com.letseat.member.dto.request.MemberSignUpRequest;
+import com.letseat.member.repository.MemberRepository;
 import io.micrometer.common.util.StringUtils;
 import jakarta.validation.ValidationException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

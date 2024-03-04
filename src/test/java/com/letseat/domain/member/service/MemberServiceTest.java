@@ -1,9 +1,10 @@
 package com.letseat.domain.member.service;
 
-import com.letseat.domain.member.domain.Member;
-import com.letseat.domain.member.dto.request.MemberSignUpRequest;
-import com.letseat.domain.member.repository.MemberRepository;
+import com.letseat.member.domain.Member;
+import com.letseat.member.dto.request.MemberSignUpRequest;
+import com.letseat.member.repository.MemberRepository;
 import com.letseat.global.auth.Role;
+import com.letseat.member.service.MemberService;
 import jakarta.validation.ValidationException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;

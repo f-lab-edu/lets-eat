@@ -1,6 +1,6 @@
 package com.letseat.global.auth;
 
-import com.letseat.domain.member.domain.Member;
+import com.letseat.member.domain.Member;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.security.core.GrantedAuthority;
