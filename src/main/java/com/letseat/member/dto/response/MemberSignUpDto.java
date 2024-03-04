@@ -1,6 +1,6 @@
-package com.letseat.domain.member.dto.response;
+package com.letseat.member.dto.response;
 
-import com.letseat.domain.member.domain.Member;
+import com.letseat.member.domain.Member;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -12,7 +12,7 @@ public class MemberSignUpDto {
     private String jwtToken;
     private boolean result;
 
-    public static MemberSignUpDto of(Member member,String jwtToken) {
+    public static MemberSignUpDto of(Member member, String jwtToken) {
         return MemberSignUpDto.builder()
                 .memberDto(MemberDto.of(member))
                 .jwtToken(jwtToken)

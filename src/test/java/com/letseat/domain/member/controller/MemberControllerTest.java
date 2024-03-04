@@ -1,9 +1,10 @@
 package com.letseat.domain.member.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.letseat.domain.member.domain.Member;
-import com.letseat.domain.member.dto.request.MemberSignUpRequest;
-import com.letseat.domain.member.service.MemberService;
+import com.letseat.member.controller.MemberController;
+import com.letseat.member.domain.Member;
+import com.letseat.member.dto.request.MemberSignUpRequest;
+import com.letseat.member.service.MemberService;
 import com.letseat.global.auth.Role;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

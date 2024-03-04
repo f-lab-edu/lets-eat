@@ -1,7 +1,6 @@
-package com.letseat.domain.member.dto.request;
+package com.letseat.member.dto.request;
 
-import com.letseat.domain.member.domain.Member;
-import com.letseat.domain.member.repository.MemberRepository;
+import com.letseat.member.domain.Member;
 import com.letseat.global.auth.Role;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AccessLevel;
@@ -37,7 +36,7 @@ public class MemberSignUpRequest {
         this.phone = phone;
     }
 
-    public Member signUpToEntity( PasswordEncoder passwordEncoder) {
+    public Member signUpToEntity(PasswordEncoder passwordEncoder) {
         Member member = Member.builder()
                 .loginId(loginId)
                 .password(password)

@@ -1,6 +1,6 @@
 package com.letseat.global.auth;
 
-import com.letseat.domain.member.domain.Member;
+import com.letseat.member.domain.Member;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

@@ -1,8 +1,8 @@
-package com.letseat.domain.member.service;
+package com.letseat.member.service;
 
-import com.letseat.domain.member.domain.Member;
-import com.letseat.domain.member.dto.request.MemberSignUpRequest;
-import com.letseat.domain.member.repository.MemberRepository;
+import com.letseat.member.domain.Member;
+import com.letseat.member.dto.request.MemberSignUpRequest;
+import com.letseat.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

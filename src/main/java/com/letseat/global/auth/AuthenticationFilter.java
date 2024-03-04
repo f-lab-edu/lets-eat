@@ -1,8 +1,8 @@
 package com.letseat.global.auth;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.letseat.domain.member.domain.Member;
-import com.letseat.domain.member.dto.response.MemberSignUpDto;
+import com.letseat.member.domain.Member;
+import com.letseat.member.dto.response.MemberSignUpDto;
 import com.letseat.global.auth.jwt.service.JwtService;
 import com.letseat.global.common.ApiResponse;
 import com.letseat.global.login.dto.LoginRequestDto;
